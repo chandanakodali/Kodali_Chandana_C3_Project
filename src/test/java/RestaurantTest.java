@@ -5,6 +5,8 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -79,4 +81,19 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    // Test Driven Development
+    // Method that returns the order value, given the name of the items in <String> format.
+    // Method parameter: list of item names
+    // Method return value: summation of order prices of all the items in the list
+    // If the item is not present in the menu, ignore
+    @Test
+    public void get_order_value_for_items_should_return_summation_of_prices_of_items() {
+        restaurant.addToMenu("Telangana Chicken Curry", 200);
+        restaurant.addToMenu("Bagara Rice", 150);
+        List<String> itemNames = new ArrayList<>();
+        itemNames.add("Vegetable lasagne");
+        itemNames.add("Telangana Chicken Curry");
+        int actualOrderValue = restaurant.getOrderValueForItems(itemNames);
+    }
 }
