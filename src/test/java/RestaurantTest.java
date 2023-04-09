@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -80,6 +81,12 @@ class RestaurantTest {
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
     }
+
+    @Test
+    public void display_restaurant_details() {
+        restaurant.displayDetails();
+        Mockito.verify(restaurant, Mockito.times(1)).getMenu();
+    }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     // Test Driven Development
@@ -95,5 +102,17 @@ class RestaurantTest {
         itemNames.add("Vegetable lasagne");
         itemNames.add("Telangana Chicken Curry");
         int actualOrderValue = restaurant.getOrderValueForItems(itemNames);
+        assertEquals(269+200, actualOrderValue);
+    }
+
+    @Test
+    public void get_order_value_for_items_should_ignore_items_that_are_not_present_in_menu() {
+        restaurant.addToMenu("Telangana Chicken Curry", 200);
+        restaurant.addToMenu("Bagara Rice", 150);
+        List<String> itemNames = new ArrayList<>();
+        itemNames.add("Bagara Rice");
+        itemNames.add("Butter Chicken");
+        int actualOrderValue = restaurant.getOrderValueForItems(itemNames);
+        assertEquals(150, actualOrderValue);
     }
 }
